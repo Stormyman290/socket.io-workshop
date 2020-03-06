@@ -1,3 +1,5 @@
+//SERVER SIDE
+
 var express = require('express');
 var socketio = require('socket.io');
 
@@ -9,7 +11,17 @@ app.use(express.static('public'));
 var io = socketio(app.listen(4000));
 
 // --- WORKSHOP STARTS HERE ---
-
+io.on('connection', function(socket) {
+	//message response
+	socket.on('message', function() {
+		console.log(data.message);
+		io.sockets.emit('message', data);
+	});
+	//typing server response
+	socket.on('typing', function(name) {
+		socket.broadcast.emit('typing', name);
+	});
+})
 // on('connection', socket => ...)
 
 // SERVER event responses 
